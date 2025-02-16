@@ -1,9 +1,8 @@
 # Food Security Monitoring Platform
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/5efc461d-ab4f-45fc-b43d-82d1de9068d1" alt="logo" width="300"/> <!-- Adjust width as needed -->
+  <img src="https://github.com/user-attachments/assets/e967aa56-f424-4394-898d-adf8cd27f3db" alt="logo" width="300"/> <!-- Adjust width as needed -->
 </p>
-
 
 ## Index
 - [Introduction](#introduction)
