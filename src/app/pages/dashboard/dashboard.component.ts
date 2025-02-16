@@ -15,7 +15,7 @@ export class DashboardComponent {
     mapDate = moment().subtract(3, 'days').format('YYYY-MM-DD');
     startDate = moment().subtract(3, 'days').format('YYYY-MM-DD');
     endDate = moment().subtract(2, 'days').format('YYYY-MM-DD');
-    maxDate = moment().subtract(2, 'days').format('YYYY-MM-DD');
+    maxDate = moment().format('YYYY-MM-DD');
 
     // UI and data management variables
     showOnlyPositive;
