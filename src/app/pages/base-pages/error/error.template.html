@@ -1,0 +1,18 @@
+<div class="container">
+    <widget class="widget-auth animated mx-auto"
+            [title]="'<h1>404</h1>'"
+            [customHeader]="true"
+            bodyClass="mt-0">
+        <p class="text-center"><strong>We are sorry</strong>, the page you were looking for could not be found.</p>
+        <button class="btn btn-primary full-width" routerLink="/dashboard">
+            Back to Dashboard
+        </button>
+    </widget>
+    <footer class="auth-footer">
+        <div style="display: grid;">
+            <span>
+                {{ appConfig.config.appName }}
+            </span>
+        </div>
+    </footer>
+</div>

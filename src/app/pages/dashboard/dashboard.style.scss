@@ -1,0 +1,16 @@
+.mAlert {
+  color: rgba(255, 99, 132, 0.9) !important;
+}
+
+.normal {
+  color: white !important;
+}
+
+#alertDIV {
+  flex-grow: 1;
+  height: 100%;
+  display: flex;
+  align-self: center;
+  text-align: center;
+  justify-content: center;
+}

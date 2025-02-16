@@ -1,0 +1,120 @@
+# Food Security Monitoring Platform
+
+## Index
+- [Introduction](#introduction)
+- [Technical Details](#technical-details)
+- [How to Use the Dashboard](#how-to-use-the-dashboard)
+- [How to Run the Project Locally](#how-to-run-the-project-locally)
+
+## Introduction
+The project aims to build a Minimum Viable Product (MVP) of a food security monitoring platform that will facilitate the validation of a composite indicator, the Composite Food Insecurity Index (CFII). This index is derived from two widely used indicators: the Food Consumption Score (FCS) and the Reduced Coping Strategy Index (rCSI).
+
+Food security analysts are tasked with monitoring food security levels in Yemen and Syria. The project will involve creating a data pipeline that runs daily to fetch new data, compute the CFII at both subnational and national levels, and present this information through a public dashboard.
+
+## Technical Details
+The project is built using Angular framework version 14.
+
+### Data Retrieval
+An API call to obtain the data displayed on the dashboard has been deployed using AWS Lambda Function. By utilizing an AWS API Gateway trigger connected to the Lambda Function, we can fetch the necessary data for visualization on the dashboard.
+
+The endpoint to retrieve the data is as follows:
+- **POST** - `https://8t41ym2n38.execute-api.eu-central-1.amazonaws.com/v1/foodSecurityData`
+  
+**Example Request Body:**
+```json
+{
+  "iso3": "SYR",
+  "date_start": "2025-02-13",
+  "date_end": "2025-02-13"
+}
+```
+**Example Response:**
+```json
+{
+  "statusCode": 200,
+  "body": {
+    "statusCode": "200",
+    "body": [
+      {
+        "country": {
+          "id": 238,
+          "name": "Syrian Arab Republic",
+          "iso3": "SYR",
+          "iso2": "SY"
+        },
+        "region": {
+          "id": 900218,
+          "name": "Al-Hasakeh",
+          "population": 1033316
+        },
+        "date": "2025-02-13",
+        "dataType": "SURVEY",
+        "metrics": {
+          "fcs": {
+            "people": 231969,
+            "prevalence": 0.2244898946692009
+          },
+          "rcsi": {
+            "people": 681848,
+            "prevalence": 0.6598639719117869
+          },
+          "marketAccess": {
+            "people": 794318,
+            "prevalence": 0.7687069644550111
+          },
+          "livelihoodCoping": {
+            "people": 618582,
+            "prevalence": 0.5986380829205729
+          }
+        }
+      }
+    ]
+  }
+}
+```
+
+### Dashboard Hosting
+The Angular dashboard is hosted on AWS S3 and distributed via CloudFront.
+
+### Access the Dashboard
+You can access the public dashboard at the following URL: [Food Security Monitoring Dashboard](https://d21h382dud9b2d.cloudfront.net).
+
+## How to Use the Dashboard
+The dashboard is primarily composed of two sections:
+
+1. **Daily Food Security Overview**: 
+  - This section allows users to select a country and a date using a dropdown menu. The dashboard will display the food security status for the selected day.
+  - Users can choose between Yemen, Syria, or both countries.
+  - The map will highlight regions with a CFII coefficient greater than 1 in red, indicating areas of concern, while regions with a CFII coefficient of 1 or less will be shown in green.
+  - Next to the map, there is a table that filters and displays only the regions marked in red.
+  <img width="1424" alt="Screenshot 2025-02-16 alle 12 17 46" src="https://github.com/user-attachments/assets/2d8ceb14-5de3-4d53-93e2-d8351eda9dad" />
+  - Users have the option to export the displayed data in Excel format for further analysis.
+  <img width="702" alt="Screenshot 2025-02-16 alle 12 19 38" src="https://github.com/user-attachments/assets/24d34008-aa2e-4298-aab3-92b124d67720" />
+
+2. **Detailed Food Security Statistics**:
+  - Users must select a country (Yemen or Syria) and a range of dates (starting and ending).
+  - The dashboard will then display the following statistical data:
+    - The number of occurrences of CFII values greater than 1.
+    - The number of occurrences of CFII values less than or equal to 1.
+    - A pie chart showing the distribution of CFII values in the selected period.
+    - A bar chart representing occurrences of data with CFII > 1 during the selected period.
+    - A comprehensive table showing all recorded data, including region, date, FCS, RCSI, and the calculated CFII value (highlighted in red if > 1).
+  - Filtering the table by region will display a **time series** for only that region via a line chart.
+  <img width="1304" alt="Screenshot 2025-02-16 alle 12 26 24" src="https://github.com/user-attachments/assets/f210365e-00d1-4f89-a243-f4e62befb201" />
+
+
+
+## How to Run the Project Locally
+1. **Clone the Repository**: Clone the project repository to your local machine.
+  ```bash
+  git clone <repository-url>
+  ```
+2. **Install NPM Dependencies**
+  ```bash
+  npm i --legacy-peer-deps
+  ```
+3. **Run the project**: Start the development server.
+  ```bash
+  ng serve --configuration=development
+  ```
+4. **Access Locally**: Open your browser and navigate to http://localhost:3000 to view the project.

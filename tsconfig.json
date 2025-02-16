@@ -1,0 +1,39 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "es2020",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2020",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "@angular/*": [
+        "node_modules/@angular/*"
+      ]
+    },
+    "useDefineForClassFields": false
+  },
+  "exclude": [
+    "dist"
+  ],
+  "include": [
+    "node_modules/ng-autosize/**/*.ts",
+    "node_modules/ng2-datetime/ng2-datetime.ts",
+    "node_modules/ng2-datetime/src/ng2-datetime/ng2-datetime.module.ts",
+    "node_modules/ng2-datetime/src/ng2-datetime/ng2-datetime.ts",
+    "**/*.ts"
+  ]
+}

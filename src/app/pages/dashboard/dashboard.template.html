@@ -1,0 +1,287 @@
+<div>
+    <div class="flex flex-column gap-30">
+        <widget>
+            <div class="flex flex-column gap-10">
+                <h4>Daily Food Security Data</h4>
+                <small>Select a country and a date to see the food security data for that country in that date.</small>
+                <div class="flex flex-row gap-10 full-width">
+                    <div class="flex flex-column gap-10 full-width">
+                        <div class="flex flex-row gap-10 align-items-center">
+                            <div>
+                                <label for="country1">Country:</label>
+                                <select id="country1" class="form-control" (ngModelChange)="mapCountryChanged($event)"
+                                        [(ngModel)]="mapCountry"
+                                        style="width: fit-content;">
+                                    <option disabled [value]="null">Select country</option>
+                                    <option value="both">All countries</option>
+                                    <option value="SYR">Syria</option>
+                                    <option value="YEM">Yemen</option>
+                                </select>
+                            </div>
+                            <div style="width: 200px;">
+                                <label for="mapDate">Date:</label>
+                                <input class="form-control"
+                                       type="date"
+                                       id="mapDate"
+                                       [(ngModel)]="mapDate"/>
+                            </div>
+                            <div style="display: flex; align-self: self-end;">
+                                <button class="btn btn-primary btn-sm"
+                                        style="height: auto;"
+                                        role="button"
+                                        (click)="getMapData(mapDate)">
+                                    Get data
+                                </button>
+                            </div>
+                            <div style="display: flex; align-self: self-end;">
+                                <button class="btn btn-primary btn-sm"
+                                        style="height: auto;"
+                                        role="button"
+                                        *ngIf="combinedData?.length"
+                                        (click)="clearMapData()">
+                                    Clear data
+                                </button>
+                            </div>
+                            <div style="display: flex; align-self: self-end;">
+                                <button class="btn btn-primary btn-sm"
+                                        style="height: auto;"
+                                        role="button"
+                                        *ngIf="combinedData?.length"
+                                        (click)="exportData()">
+                                    Export data
+                                </button>
+                            </div>
+                        </div>
+                        <div class="full-width">
+                            <app-mapbox (mapReady)="mapReady($event)"
+                                        class="full-width"
+                                        [country]="statsCountry"
+                                        (countyClicked)="mapCountryChanged($event)">
+                            </app-mapbox>
+                        </div>
+                    </div>
+                    <div class="full-width" style="width: 300px;">
+                        <h5>Warning zones<span
+                                *ngIf="combinedData?.length">: <strong>{{ getPositiveCFIICombinedData()?.length }}</strong>/{{ combinedData?.length }}</span>
+                        </h5>
+                        <small *ngIf="mapCountry === 'both' && combinedData?.length">
+                            Syria: {{ getPositiveCFIICombinedData('SYR')?.length }}
+                            / {{ getFilteredCombinedData('SYR')?.length }}
+                        </small>
+                        <small *ngIf="mapCountry === 'both' && combinedData?.length">
+                            Yemen: {{ getPositiveCFIICombinedData('YEM')?.length }}
+                            / {{ getFilteredCombinedData('YEM')?.length }}
+                        </small>
+                        <ngx-datatable class="table table-striped table-hover no-margin full-width"
+                                       style="overflow: scroll;"
+                                       [style.height.px]="mapCountry === 'both' && combinedData?.length ? 423 : 436"
+                                       [rows]="getPositiveCFIICombinedData()"
+                                       [columnMode]="'flex'"
+                                       [headerHeight]="0"
+                                       [footerHeight]="0"
+                                       [messages]="{emptyMessage:'No available data', totalMessage: 'items'}"
+                                       [rowHeight]="'auto'"
+                                       [limit]="50">
+                            <ngx-datatable-column [draggable]="false" name="Region" [sortable]="true" prop="region.name"
+                                                  [flexGrow]="2">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <p class="fw-semi-bold white-color no-margin"
+                                       [class.underlined]="utilsService.hoveredRegion?.id === row.region.id">
+                                        {{ row.region.name }}
+                                    </p>
+                                    <!--                                    <p class="white-color no-margin">-->
+                                    <!--                                        {{ row.region.population }}-->
+                                    <!--                                    </p>-->
+                                    <span>{{ row.country.iso3 }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column [draggable]="false" name="cfii" [sortable]="true" prop="cfii"
+                                                  [flexGrow]="1">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <p class="fw-bold white-color no-margin text-right"
+                                       [class]="row.cfii >= 1 ? 'mAlert' : 'normal'">
+                                        {{ row.cfii.toFixed(2) }}
+                                    </p>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <!--                            <ngx-datatable-column [draggable]="false" name="Date" [sortable]="true" prop="date"-->
+                            <!--                                                  [flexGrow]="1">-->
+                            <!--                                <ng-template let-row="row" ngx-datatable-cell-template>-->
+                            <!--                                    <p class="white-color no-margin default-pointer text-right">-->
+                            <!--                                        {{ row.count }}-->
+                            <!--                                    </p>-->
+                            <!--                                </ng-template>-->
+                            <!--                            </ngx-datatable-column>-->
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </widget>
+        <widget>
+            <div class="flex flex-column gap-10 full-width">
+                <h4>
+                    Detailed Food Security statistics <span
+                        *ngIf="statsCountry">for <strong>{{ getCountryName() }}</strong></span>
+                </h4>
+                <small>Select a country and a range of dates to see the food security statistics.</small>
+                <div class="flex flex-row gap-10 full-width" style="align-self: center; align-items: flex-end;">
+                    <div>
+                        <label for="country">Country:</label>
+                        <select id="country" class="form-control" [(ngModel)]="statsCountry"
+                                style="width: fit-content;">
+                            <option disabled [value]="null">Select country</option>
+                            <option value="SYR">Syria</option>
+                            <option value="YEM">Yemen</option>
+                        </select>
+                    </div>
+                    <div style="width: 200px;">
+                        <label for="startDate">Starting date:</label>
+                        <input class="form-control" [max]="maxDate" type="date" id="startDate" [(ngModel)]="startDate"/>
+                    </div>
+                    <div style="width: 200px;">
+                        <label for="endDate">Ending date:</label>
+                        <input class="form-control" [max]="maxDate" type="date" id="endDate" [(ngModel)]="endDate"/>
+                    </div>
+                    <button class="btn btn-primary btn-sm"
+                            style="height: auto;"
+                            role="button"
+                            (click)="getStatsData()">
+                        Get data
+                    </button>
+                    <button class="btn btn-primary btn-sm"
+                            *ngIf="statsData"
+                            role="button"
+                            (click)="clearData()">
+                        Clear data
+                    </button>
+                </div>
+
+                <div class="flex flex-row gap-10">
+                    <div id="alertDIV" *ngIf="getPositiveCFII()">
+                        <div>
+                            <h1 class="centered mAlert"><strong>{{ getPositiveCFII()?.length }}</strong> values cfii > 1
+                            </h1>
+                            <h1 class="centered"><strong>{{ statsData?.length - getPositiveCFII()?.length }}</strong>
+                                values
+                                cfii <= 1
+                            </h1>
+                            <!--                            <p class="no-margin text-center">Between <strong>{{ startDate }}</strong> and-->
+                            <!--                                <strong>{{ endDate }}</strong></p>-->
+                        </div>
+                    </div>
+
+                    <div class="widget-padding-lg" style="width: fit-content;" *ngIf="chartVisible">
+                        <h3>CFII distribution in the given period</h3>
+                        <canvas id="myPieChart" width="400" height="400"></canvas>
+                    </div>
+                </div>
+
+                <div class="full-width widget-padding-lg" *ngIf="chartVisible">
+                    <h3>Occurrences of CFII > 1 per region in the given period (<strong>{{ getDiffDates() }}
+                        day{{ getDiffDates() === 1 ? '' : 's' }}</strong>)</h3>
+                    <canvas id="myLineChart" style="width: 100%;" height="400"></canvas>
+                    <h3>Total {{ getCountryName() }} occurrences: <strong>{{ getPositiveCFII()?.length }}</strong></h3>
+                    <h3>Total days of CFII > 1: <strong>{{ getTotalCFIIDays() }}</strong></h3>
+                </div>
+
+                <div *ngIf="statsData?.length">
+                    <div class="full-width widget-padding-lg">
+                        <div class="flex flex-column gap-10">
+                            <h3>Detailed food security data per region in the given period</h3>
+                            <small>Filter by region to get region time series</small>
+                            <div class="flex flex-row justify-content-between align-items-center">
+                                <select class="form-control" [(ngModel)]="selectedRegion"
+                                        (ngModelChange)="regionSelected()"
+                                        style="width: fit-content;">
+                                    <option [value]="-1" selected>All regions</option>
+                                    <option *ngFor="let region of regions" [value]="region">{{ region }}</option>
+                                </select>
+
+                                <div style="display: flex; gap: 10px; align-self: end;"
+                                     *ngIf="getPositiveCFII()?.length">
+                                    <input type="checkbox" id="onlyPositive" [(ngModel)]="showOnlyPositive"/>
+                                    <label class="no-margin" for="onlyPositive">Show on table only CFII > 1</label>
+                                </div>
+                            </div>
+
+                            <div *ngIf="selectedRegion !== -1 && chartTimeVisible">
+                                <h4>Time Series for <strong>{{ selectedRegion }}</strong> in the given period</h4>
+                                <div class="flex flex-column gap-4">
+                                    <small>The time series shows the value of CFII per day for the selected
+                                        region.</small>
+                                    <small *ngIf="getDiffDates() < 2">
+                                        Please select at least 2 days-range to see the time series chart data.
+                                    </small>
+                                </div>
+
+                                <canvas id="myLineChartTimeSeries" style="width: 100%;" height="400"></canvas>
+                            </div>
+
+                            <!--                            <div style="display: flex; align-self: self-end;">-->
+                            <!--                                <button class="btn btn-primary btn-sm"-->
+                            <!--                                        style="height: auto;"-->
+                            <!--                                        role="button"-->
+                            <!--                                        (click)="exportData(2)">-->
+                            <!--                                    Export data-->
+                            <!--                                </button>-->
+                            <!--                            </div>-->
+
+                            <ngx-datatable class="table table-striped table-hover"
+                                           [rows]="getFilteredData()"
+                                           [columnMode]="'flex'"
+                                           [headerHeight]="50"
+                                           [footerHeight]="50"
+                                           [messages]="{emptyMessage:'No data', totalMessage: 'items'}"
+                                           [rowHeight]="'auto'"
+                                           [limit]="50">
+                                <ngx-datatable-column [draggable]="false" name="Region" [sortable]="true"
+                                                      prop="region.name"
+                                                      [flexGrow]="1">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <p class="fw-semi-bold white-color no-margin default-pointer">
+                                            {{ row.region.name }}
+                                        </p>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [draggable]="false" name="Date" [sortable]="true" prop="date"
+                                                      [flexGrow]="1">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <p class="white-color no-margin default-pointer">
+                                            {{ row.date }}
+                                        </p>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [draggable]="false" name="fcs" [sortable]="true" prop="fcs"
+                                                      [flexGrow]="1">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <p class="no-margin no-padding default-pointer">
+                                            {{ row.metrics.fcs.prevalence.toFixed(2) }}
+                                        </p>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [draggable]="false" name="rcsi" [sortable]="true" prop="rcsi"
+                                                      [flexGrow]="1">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <p class="no-margin no-padding default-pointer">
+                                            {{ row.metrics.rcsi.prevalence.toFixed(2) }}
+                                        </p>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [draggable]="false" name="cfii" [sortable]="true" prop="cfii"
+                                                      [flexGrow]="1">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <h4 class="no-margin no-padding default-pointer"
+                                            [class.fw-bold]="row.cfii >= 1"
+                                            [class]="row.cfii >= 1 ? 'mAlert' : 'normal'">
+                                            {{ row.cfii.toFixed(2) }}
+                                        </h4>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </widget>
+    </div>
+</div>

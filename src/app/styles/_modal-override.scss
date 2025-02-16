@@ -1,0 +1,19 @@
+.modal-content {
+  background-color: #0A0D10;
+  border: $modal-content-border-width solid #0A0D10;
+}
+
+.modal-header {
+  border-bottom: 1px solid #333333;
+}
+
+.modal-footer {
+  border-top: 1px solid #333333;
+}
+
+.close {
+  border: 1px solid #E0E0E0 !important;
+  opacity: 1;
+  border-radius: 5px;
+  margin-right: 1px !important;
+}

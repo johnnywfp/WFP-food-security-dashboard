@@ -1,0 +1,54 @@
+<ul class="navbar-nav flex-row" (click)="$event.preventDefault()">
+    <li class="nav-item flex" style="align-items: center;">
+        <h2 class="no-margin" style="padding-left: 40px;">
+            Food Security Dashboard
+        </h2>
+        <!--        <ng-template #sidebarToggleTooltip>-->
+        <!--            Apri/chiudi <br> sidebar <br>-->
+        <!--        </ng-template>-->
+        <!-- whether to automatically collapse sidebar on mousveeleave. If activated acts more like usual admin templates -->
+        <!--        <a (click)="toggleSidebar('static')" class="nav-link d-none ml-3 d-lg-flex" [tooltip]="sidebarToggleTooltip"-->
+        <!--           placement="bottom">-->
+        <!--            <i class="la la-bars la-lg"></i>-->
+        <!--        </a>-->
+        <!-- shown on xs & sm screen. collapses and expands navigation -->
+<!--        <a (click)="toggleSidebar('collapse')" class="d-lg-none nav-link" href="#" data-html="true"-->
+<!--           title="Show/hide<br>sidebar" data-placement="bottom">-->
+<!--            <span class="rounded rounded-lg text-gray d-md-none"><i class="la la-bars la-lg"></i></span>-->
+<!--            <i style="color: white"  class="ml-3 la la-bars la-lg d-none d-md-block d-lg-none"></i>-->
+<!--        </a>-->
+    </li>
+</ul>
+
+<ul class="navbar-nav mr-3 d-none d-md-flex flex-row" (click)="$event.preventDefault()">
+<!--    <li class="nav-item dropdown"-->
+<!--        dropdown-->
+<!--        placement="bottom right"-->
+<!--        [autoClose]="false"-->
+<!--        style="margin-left: 5px; display: flex; align-items: center;">-->
+<!--                <span class="avatar rounded-circle thumb-sm float-left mr-2">-->
+<!--                  <img *ngIf="loginService.user?.avatar"-->
+<!--                       class="rounded-circle"-->
+<!--                       style="width: 100%; height: 100%;"-->
+<!--                       [src]="utilsService.getCDNPath(loginService.user?.avatar) || 'assets/img/people/a5.jpg'"/>-->
+<!--                  <span *ngIf="loginService.user">{{ loginService.user?.first_name[0] | uppercase }}</span>-->
+<!--                </span>-->
+<!--        <div class="flex flex-column">-->
+<!--            <span class="small">{{ loginService.user?.first_name }} {{ loginService.user?.last_name }}</span>-->
+<!--            <span class="small">{{ userService.parseRole(loginService.user?.role) | uppercase }}</span>-->
+<!--        </div>-->
+<!--    </li>-->
+<!--    <li class="nav-item dropdown navbar-settings" dropdown placement="bottom right">-->
+<!--        <a href="#" class="nav-link dropdown-toggle" dropdownToggle>-->
+<!--            <i class="la la-cog la-lg" style="color: white" ></i>-->
+<!--        </a>-->
+<!--        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" >-->
+<!--            &lt;!&ndash;<li><a class="dropdown-item" href="#"><i class="glyphicon glyphicon-user"></i> &nbsp; My Account</a></li>-->
+<!--            <li class="dropdown-divider"></li>&ndash;&gt;-->
+<!--            &lt;!&ndash;<li><a class="dropdown-item" (click)="changePwd()"><i class="la la-user-lock"></i> &nbsp; Cambia&ndash;&gt;-->
+<!--            &lt;!&ndash;    password</a></li>&ndash;&gt;-->
+<!--            &lt;!&ndash;<div class="separator"></div>&ndash;&gt;-->
+<!--            <li><a class="dropdown-item" (click)="logout()"><i class="la la-sign-out"></i> &nbsp; Log Out</a></li>-->
+<!--        </ul>-->
+<!--    </li>-->
+</ul>
