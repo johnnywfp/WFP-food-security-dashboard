@@ -134,5 +134,6 @@ The dashboard is primarily composed of two sections:
 4. **Access Locally**: Open your browser and navigate to http://localhost:3000 to view the project.
 
 ## Personal Notes
-Regarding the geographical boundaries, I used the provided endpoint to retrieve the administrative boundaries of the countries. Specifically, I made a GET call to the [GeoAPI](https://api.vam.wfp.org/geodata/GetGeoAdmins?adm0={adm0}&admcode={adm0}), using the `adm0` to obtain all the regions of Yemen and Syria. After retrieving this information, I decided to save the data in a static file within the project, since this is static data that does not change over time.
+- Regarding the geographical boundaries, I used the provided endpoint to retrieve the administrative boundaries of the countries. Specifically, I made a GET call to the [GeoAPI](https://api.vam.wfp.org/geodata/GetGeoAdmins?adm0={adm0}&admcode={adm0}), using the `adm0` to obtain all the regions of Yemen and Syria. After retrieving this information, I decided to save the data in a static file within the project, since this is static data that does not change over time.
 The data has been saved in the file [src/app/extras/geoJSON.ts](src/app/extras/geoJSON.ts).
+- I have noticed that the data for the current day is never available. However, the data for the previous day becomes available starting from 3:00 PM. To avoid displaying an alert for "data not found", I have chosen to set the initial date to two days prior to the date when the user accesses the dashboard.
