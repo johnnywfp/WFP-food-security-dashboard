@@ -22,7 +22,7 @@ The project is built using Angular framework version 14.
 
 ### System Architecture Diagram
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/ca811483-11e3-4a41-9e14-f3cc9a0affca" alt="logo" style="width: 80%"/>
+  <img src="https://github.com/user-attachments/assets/b6ef42f2-63db-44d8-b99f-770996970070" alt="logo" style="width: 80%"/>
 </p>
 
 ### Data Retrieval
