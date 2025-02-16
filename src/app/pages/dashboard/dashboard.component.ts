@@ -13,9 +13,9 @@ declare var Chart;
 export class DashboardComponent {
     // Variables for managing dates
     mapDate = moment().subtract(3, 'days').format('YYYY-MM-DD');
-    startDate = moment().subtract(2, 'days').format('YYYY-MM-DD');
-    endDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
-    maxDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
+    startDate = moment().subtract(3, 'days').format('YYYY-MM-DD');
+    endDate = moment().subtract(2, 'days').format('YYYY-MM-DD');
+    maxDate = moment().subtract(2, 'days').format('YYYY-MM-DD');
 
     // UI and data management variables
     showOnlyPositive;
