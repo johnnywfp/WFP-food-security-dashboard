@@ -1,21 +1,34 @@
 # Food Security Monitoring Platform
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/5efc461d-ab4f-45fc-b43d-82d1de9068d1" alt="logo" width="300"/> <!-- Adjust width as needed -->
+</p>
+
+
 ## Index
 - [Introduction](#introduction)
 - [Technical Details](#technical-details)
 - [How to Use the Dashboard](#how-to-use-the-dashboard)
 - [How to Run the Project Locally](#how-to-run-the-project-locally)
+- [Personal notes](#personal-notes)
 
 ## Introduction
 The project aims to build a Minimum Viable Product (MVP) of a food security monitoring platform that will facilitate the validation of a composite indicator, the Composite Food Insecurity Index (CFII). This index is derived from two widely used indicators: the Food Consumption Score (FCS) and the Reduced Coping Strategy Index (rCSI).
 
-Food security analysts are tasked with monitoring food security levels in Yemen and Syria. The project will involve creating a data pipeline that runs daily to fetch new data, compute the CFII at both subnational and national levels, and present this information through a public dashboard.
+Food security analysts are tasked with monitoring food security levels in Yemen and Syria. This project involves creating a web dashboard that allows users to visualize food security data and statistics.
 
 ## Technical Details
 The project is built using Angular framework version 14.
 
+### System Architecture Diagram
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b6ef42f2-63db-44d8-b99f-770996970070" alt="logo" style="width: 80%"/>
+</p>
+
 ### Data Retrieval
-An API call to obtain the data displayed on the dashboard has been deployed using AWS Lambda Function. By utilizing an AWS API Gateway trigger connected to the Lambda Function, we can fetch the necessary data for visualization on the dashboard.
+An API call to obtain the data displayed on the dashboard has been deployed using AWS Lambda Function. By using an AWS API Gateway trigger connected to the Lambda Function, we can fetch the necessary data for visualization on the dashboard.
+
+**Swagger documentation**: `https://d3uylfhvn5dmm1.cloudfront.net/index.html`
 
 The endpoint to retrieve the data is as follows:
 - **POST** - `https://8t41ym2n38.execute-api.eu-central-1.amazonaws.com/v1/foodSecurityData`
@@ -73,6 +86,8 @@ The endpoint to retrieve the data is as follows:
 }
 ```
 
+No Authentication is required.
+
 ### Dashboard Hosting
 The Angular dashboard is hosted on AWS S3 and distributed via CloudFront.
 
@@ -103,7 +118,6 @@ The dashboard is primarily composed of two sections:
   <img width="1304" alt="Screenshot 2025-02-16 alle 12 26 24" src="https://github.com/user-attachments/assets/f210365e-00d1-4f89-a243-f4e62befb201" />
 
 
-
 ## How to Run the Project Locally
 1. **Clone the Repository**: Clone the project repository to your local machine.
   ```bash
@@ -118,3 +132,7 @@ The dashboard is primarily composed of two sections:
   ng serve --configuration=development
   ```
 4. **Access Locally**: Open your browser and navigate to http://localhost:3000 to view the project.
+
+## Personal Notes
+Regarding the geographical boundaries, I used the provided endpoint to retrieve the administrative boundaries of the countries. Specifically, I made a GET call to the [GeoAPI](https://api.vam.wfp.org/geodata/GetGeoAdmins?adm0={adm0}&admcode={adm0}), using the `adm0` to obtain all the regions of Yemen and Syria. After retrieving this information, I decided to save the data in a static file within the project, since this is static data that does not change over time.
+The data has been saved in the file [src/app/extras/geoJSON.ts](src/app/extras/geoJSON.ts).
