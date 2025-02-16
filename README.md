@@ -102,9 +102,9 @@ The dashboard is primarily composed of two sections:
   - Users can choose between Yemen, Syria, or both countries.
   - The map will highlight regions with a CFII coefficient greater than 1 in red, indicating areas of concern, while regions with a CFII coefficient of 1 or less will be shown in green.
   - Next to the map, there is a table that filters and displays only the regions marked in red.
-  <img width="1424" alt="Screenshot 2025-02-16 alle 12 17 46" src="https://github.com/user-attachments/assets/2d8ceb14-5de3-4d53-93e2-d8351eda9dad" />
+  <img width="1424" alt="Screenshot 2025-02-16 alle 12 17 46" src="https://github.com/user-attachments/assets/5a2c1edc-c97c-40ec-a155-42d232236c95" />
   - Users have the option to export the displayed data in Excel format for further analysis.
-  <img width="702" alt="Screenshot 2025-02-16 alle 12 19 38" src="https://github.com/user-attachments/assets/24d34008-aa2e-4298-aab3-92b124d67720" />
+  <img width="702" alt="Screenshot 2025-02-16 alle 12 19 38" src="https://github.com/user-attachments/assets/98bf4cc2-9aa6-4959-9d66-6e8f769f1314" />
 
 2. **Detailed Food Security Statistics**:
   - Users must select a country (Yemen or Syria) and a range of dates (starting and ending).
@@ -115,13 +115,13 @@ The dashboard is primarily composed of two sections:
     - A bar chart representing occurrences of data with CFII > 1 during the selected period.
     - A comprehensive table showing all recorded data, including region, date, FCS, RCSI, and the calculated CFII value (highlighted in red if > 1).
   - Filtering the table by region will display a **time series** for only that region via a line chart.
-  <img width="1304" alt="Screenshot 2025-02-16 alle 12 26 24" src="https://github.com/user-attachments/assets/f210365e-00d1-4f89-a243-f4e62befb201" />
+  <img width="1304" alt="Screenshot 2025-02-16 alle 12 26 24" src="https://github.com/user-attachments/assets/9962011a-2374-491e-afd9-a03e9715d9fc" />
 
 
 ## How to Run the Project Locally
 1. **Clone the Repository**: Clone the project repository to your local machine.
   ```bash
-  git clone <repository-url>
+  git clone https://github.com/johnnywfp/WFP-food-security-dashboard.git
   ```
 2. **Install NPM Dependencies**
   ```bash
